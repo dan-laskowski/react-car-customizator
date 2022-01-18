@@ -1,4 +1,5 @@
-# Car Customizator (Customization UI Programmer Test)
+# Car Configurator 
+Customization UI Programmer Test
 
 ## [APP DEMO](#)
 
