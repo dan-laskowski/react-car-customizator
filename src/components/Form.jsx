@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Tab, RadioGroup } from '@headlessui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Tab } from '@headlessui/react';
 import { getColors, getModels } from '../app/api';
 import {
   changeModel,
@@ -14,6 +14,7 @@ import {
 } from '../features/config/configSlice';
 
 export default function Form() {
+  const { value } = useSelector((state) => state.config);
   const dispatch = useDispatch();
 
   let [isLoading, setLoading] = useState(true);
@@ -95,21 +96,23 @@ export default function Form() {
   }, []);
 
   return (
-    <>
+    <div>
       {isLoading ? (
         <h1>Ładowanie elementów</h1>
       ) : (
-        <>
-          <h1>MODEL</h1>
+        <div className="text-neutral-700">
+          <h1 className="text-lg font-bold mb-2">Model</h1>
           <Tab.Group onChange={(index) => handleModelTabChange(index)}>
-            <Tab.List>
+            <Tab.List className="mb-6">
               {models.map((item) => (
                 <Tab key={item.id}>
                   {({ selected }) => (
                     <button
                       className={`border p-4 mx-2 text-white ${
-                        selected ? 'bg-neutral-600' : 'bg-neutral-400'
-                      } rounded-lg cursor-pointer`}
+                        selected
+                          ? 'bg-neutral-600 font-medium'
+                          : 'bg-neutral-400 font-light'
+                      } rounded-lg cursor-pointer drop-shadow-md`}
                     >
                       {item.name}
                     </button>
@@ -118,18 +121,20 @@ export default function Form() {
               ))}
             </Tab.List>
             <Tab.Panels>
-              <p>ENGINE</p>
+              <p className="text-lg font-bold mb-2">Engine</p>
               {models.map((item) => (
                 <Tab.Panel className="w-full flex flex-col" key={item.id}>
                   <Tab.Group onChange={(index) => handleEngineTabChange(index)}>
-                    <Tab.List>
+                    <Tab.List className="mb-6">
                       {item.engines.map((engine) => (
                         <Tab key={engine.capacity}>
                           {({ selected }) => (
                             <button
                               className={`border p-4 mx-2 text-white ${
-                                selected ? 'bg-neutral-600' : 'bg-neutral-400'
-                              } rounded-lg cursor-pointer`}
+                                selected
+                                  ? 'bg-neutral-600 font-medium'
+                                  : 'bg-neutral-400 font-light'
+                              } rounded-lg cursor-pointer drop-shadow-md`}
                             >
                               {engine.capacity}
                             </button>
@@ -140,20 +145,20 @@ export default function Form() {
                     <Tab.Panels>
                       {item.engines.map((engine) => (
                         <Tab.Panel key={engine.capacity}>
-                          <p>GEARBOX</p>
+                          <p className="text-lg font-bold mb-2">Gearbox</p>
                           <Tab.Group
                             onChange={(index) => handleGearboxTabChange(index)}
                           >
-                            <Tab.List>
+                            <Tab.List className="mb-12">
                               {engine.gearboxes.map((gearbox) => (
                                 <Tab key={gearbox.name}>
                                   {({ selected }) => (
                                     <button
-                                      className={`border p-4 mx-2 text-white ${
+                                      className={`p-4 mx-2 text-white ${
                                         selected
-                                          ? 'bg-neutral-600'
-                                          : 'bg-neutral-400'
-                                      } rounded-lg cursor-pointer`}
+                                          ? 'bg-neutral-600 font-medium'
+                                          : 'bg-neutral-400 font-light'
+                                      } rounded-lg cursor-pointer drop-shadow-md`}
                                     >
                                       {gearbox.name}
                                     </button>
@@ -171,48 +176,27 @@ export default function Form() {
             </Tab.Panels>
           </Tab.Group>
           <div>
-            <h1>Avaiable Colors:</h1>
+            <h1 className="text-lg font-bold">Paint</h1>
+            <p className="text-sm mb-4">{value.color.name}</p>
             <Tab.Group onChange={(index) => handleColorChange(index)}>
-              <Tab.List>
+              <Tab.List className="flex align-center">
                 {colors.map((color) => (
                   <Tab key={color.name}>
                     {({ selected }) => (
                       <button
                         style={{ backgroundColor: color.value }}
-                        className={`border border-black p-4 mx-2 text-white ${
-                          selected ? 'border-4' : 'border-0'
-                        } rounded-lg cursor-pointer`}
-                      >
-                        {color.name}
-                      </button>
+                        className={` m-2 ${
+                          selected ? 'w-20 h-20' : 'w-14 h-14'
+                        } rounded-lg cursor-pointer drop-shadow-md`}
+                      ></button>
                     )}
                   </Tab>
                 ))}
               </Tab.List>
             </Tab.Group>
-            {/* <RadioGroup
-              className="flex flex-row"
-              value={value.color.name}
-              onChange={(value) => dispatch(changeColorName(value))}
-            >
-              {colors.map((color) => (
-                <RadioGroup.Option key={color.id} value={color.name}>
-                  {({ checked }) => (
-                    <button
-                      style={{ backgroundColor: color.value }}
-                      className={`border border-black p-4 mx-2 text-white ${
-                        checked ? 'border-4' : 'border-0'
-                      } rounded-lg cursor-pointer`}
-                    >
-                      {color.name}
-                    </button>
-                  )}
-                </RadioGroup.Option>
-              ))}
-            </RadioGroup> */}
           </div>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 }
