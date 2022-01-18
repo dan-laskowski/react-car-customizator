@@ -1,42 +1,95 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Tab, RadioGroup } from '@headlessui/react';
-import { getModels } from '../app/api';
+import { getColors, getModels } from '../app/api';
 import {
-  changeEngine,
   changeModel,
-  changeGearbox,
+  changeEngineName,
+  changeEnginePrice,
+  changeGearboxName,
+  changeGearboxPrice,
+  changeColorName,
+  changeColorValue,
+  changeColorPrice,
 } from '../features/config/configSlice';
 
 export default function Form() {
-  const { value } = useSelector((state) => state.config);
   const dispatch = useDispatch();
 
   let [isLoading, setLoading] = useState(true);
 
   let [models, setModels] = useState([]);
+  let [colors, setColors] = useState([]);
   let [currentModelTab, setCurrentModelTab] = useState(0);
+  let [currentEngineTab, setCurrentEngineTab] = useState(0);
 
   const handleModelTabChange = (index) => {
     setCurrentModelTab(index);
     dispatch(changeModel(models[index].name));
-    dispatch(changeEngine(models[index].engines[0].capacity));
-    dispatch(changeGearbox(models[index].engines[0].gearboxes[0].name));
+
+    dispatch(changeEngineName(models[index].engines[0].capacity));
+    dispatch(changeEnginePrice(models[index].engines[0].price));
+
+    dispatch(changeGearboxName(models[index].engines[0].gearboxes[0].name));
+    dispatch(changeGearboxPrice(models[index].engines[0].gearboxes[0].price));
   };
 
   const handleEngineTabChange = (index) => {
-    dispatch(changeEngine(models[currentModelTab].engines[index].capacity));
+    setCurrentEngineTab(index);
     dispatch(
-      changeGearbox(models[currentModelTab].engines[index].gearboxes[0].name)
+      changeEngineName(
+        models[currentModelTab].engines[currentEngineTab].capacity
+      )
     );
+    dispatch(
+      changeEnginePrice(models[currentModelTab].engines[currentEngineTab].price)
+    );
+
+    dispatch(
+      changeGearboxName(
+        models[currentModelTab].engines[index].gearboxes[0].name
+      )
+    );
+    dispatch(
+      changeGearboxPrice(
+        models[currentModelTab].engines[index].gearboxes[0].price
+      )
+    );
+  };
+
+  const handleGearboxTabChange = (index) => {
+    dispatch(
+      changeGearboxName(
+        models[currentModelTab].engines[currentEngineTab].gearboxes[index].name
+      )
+    );
+    dispatch(
+      changeGearboxPrice(
+        models[currentModelTab].engines[currentEngineTab].gearboxes[index].price
+      )
+    );
+  };
+
+  const handleColorChange = (index) => {
+    dispatch(changeColorName(colors[index].name));
+    dispatch(changeColorValue(colors[index].value));
+    dispatch(changeColorPrice(colors[index].price));
   };
 
   useEffect(() => {
     getModels().then((models) => {
       setModels(models);
       dispatch(changeModel(models[0].name));
-      dispatch(changeEngine(models[0].engines[0].capacity));
-      dispatch(changeGearbox(models[0].engines[0].gearboxes[0].name));
+      dispatch(changeEngineName(models[0].engines[0].capacity));
+      dispatch(changeEnginePrice(models[0].engines[0].price));
+      dispatch(changeGearboxName(models[0].engines[0].gearboxes[0].name));
+      dispatch(changeGearboxPrice(models[0].engines[0].gearboxes[0].price));
+    });
+    getColors().then((colors) => {
+      setColors(colors);
+      dispatch(changeColorName(colors[0].name));
+      dispatch(changeColorValue(colors[0].value));
+      dispatch(changeColorPrice(colors[0].price));
       setLoading(false);
     });
   }, []);
@@ -88,30 +141,27 @@ export default function Form() {
                       {item.engines.map((engine) => (
                         <Tab.Panel key={engine.capacity}>
                           <p>GEARBOX</p>
-                          <RadioGroup
-                            className="flex flex-row"
-                            value={value.gearbox}
-                            onChange={(value) => dispatch(changeGearbox(value))}
+                          <Tab.Group
+                            onChange={(index) => handleGearboxTabChange(index)}
                           >
-                            {engine.gearboxes.map((gearbox) => (
-                              <RadioGroup.Option
-                                key={gearbox.name}
-                                value={gearbox.name}
-                              >
-                                {({ checked }) => (
-                                  <button
-                                    className={`border p-4 mx-2 text-white ${
-                                      checked
-                                        ? 'bg-neutral-600'
-                                        : 'bg-neutral-400'
-                                    } rounded-lg cursor-pointer`}
-                                  >
-                                    {gearbox.name}
-                                  </button>
-                                )}
-                              </RadioGroup.Option>
-                            ))}
-                          </RadioGroup>
+                            <Tab.List>
+                              {engine.gearboxes.map((gearbox) => (
+                                <Tab key={gearbox.name}>
+                                  {({ selected }) => (
+                                    <button
+                                      className={`border p-4 mx-2 text-white ${
+                                        selected
+                                          ? 'bg-neutral-600'
+                                          : 'bg-neutral-400'
+                                      } rounded-lg cursor-pointer`}
+                                    >
+                                      {gearbox.name}
+                                    </button>
+                                  )}
+                                </Tab>
+                              ))}
+                            </Tab.List>
+                          </Tab.Group>
                         </Tab.Panel>
                       ))}
                     </Tab.Panels>
@@ -120,6 +170,47 @@ export default function Form() {
               ))}
             </Tab.Panels>
           </Tab.Group>
+          <div>
+            <h1>Avaiable Colors:</h1>
+            <Tab.Group onChange={(index) => handleColorChange(index)}>
+              <Tab.List>
+                {colors.map((color) => (
+                  <Tab key={color.name}>
+                    {({ selected }) => (
+                      <button
+                        style={{ backgroundColor: color.value }}
+                        className={`border border-black p-4 mx-2 text-white ${
+                          selected ? 'border-4' : 'border-0'
+                        } rounded-lg cursor-pointer`}
+                      >
+                        {color.name}
+                      </button>
+                    )}
+                  </Tab>
+                ))}
+              </Tab.List>
+            </Tab.Group>
+            {/* <RadioGroup
+              className="flex flex-row"
+              value={value.color.name}
+              onChange={(value) => dispatch(changeColorName(value))}
+            >
+              {colors.map((color) => (
+                <RadioGroup.Option key={color.id} value={color.name}>
+                  {({ checked }) => (
+                    <button
+                      style={{ backgroundColor: color.value }}
+                      className={`border border-black p-4 mx-2 text-white ${
+                        checked ? 'border-4' : 'border-0'
+                      } rounded-lg cursor-pointer`}
+                    >
+                      {color.name}
+                    </button>
+                  )}
+                </RadioGroup.Option>
+              ))}
+            </RadioGroup> */}
+          </div>
         </>
       )}
     </>
