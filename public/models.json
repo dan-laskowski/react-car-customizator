@@ -1,0 +1,118 @@
+[
+  {
+    "id": 0,
+    "name": "PRO RS3",
+    "engines": [
+      {
+        "capacity": "5.2L 532BHP",
+        "gearboxes": [
+          {
+            "name": "manual",
+            "price": 0
+          },
+          {
+            "name": "automatic",
+            "price": 5000
+          }
+        ],
+        "price": 90000
+      },
+      {
+        "capacity": "4.2L 443BHP",
+        "gearboxes": [
+          {
+            "name": "manual",
+            "price": 0
+          }
+        ],
+        "price": 80000
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "UBER RS2",
+    "engines": [
+      {
+        "capacity": "4.2L 443BHP",
+        "gearboxes": [
+          {
+            "name": "manual",
+            "price": 0
+          }
+        ],
+        "price": 80000
+      },
+      {
+        "capacity": "3.6L 374BHP",
+        "gearboxes": [
+          {
+            "name": "manual",
+            "price": 0
+          },
+          {
+            "name": "automatic",
+            "price": 5000
+          }
+        ],
+        "price": 75000
+      },
+      {
+        "capacity": "2.0L 166BHP",
+        "gearboxes": [
+          {
+            "name": "manual",
+            "price": 0
+          }
+        ],
+        "price": 60000
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Standard",
+    "engines": [
+      {
+        "capacity": "3.6L 374BHP",
+        "gearboxes": [
+          {
+            "name": "automatic",
+            "price": 0
+          }
+        ],
+        "price": 57500
+      },
+      {
+        "capacity": "2.0L 166BHP",
+        "gearboxes": [
+          {
+            "name": "manual",
+            "price": 0
+          },
+          {
+            "name": "automatic",
+            "price": 3500
+          }
+        ],
+        "price": 50000
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "WK",
+    "engines": [
+      {
+        "capacity": "2.0L 166BHP",
+        "gearboxes": [
+          {
+            "name": "manual",
+            "price": 0
+          }
+        ],
+        "price": 35000
+      }
+    ]
+  }
+]

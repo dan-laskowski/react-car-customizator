@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "name": "Martro Grey",
+    "value": "#7E807B",
+    "price": 0
+  },
+  {
+    "id": 1,
+    "name": "Varrow Blue",
+    "value": "#3450A2",
+    "price": 5000
+  },
+  {
+    "id": 2,
+    "name": "Linel Green",
+    "value": "#788303",
+    "price": 5000
+  },
+  {
+    "id": 3,
+    "name": "Sidney Yellow",
+    "value": "#CDA751",
+    "price": 7500
+  }
+]
