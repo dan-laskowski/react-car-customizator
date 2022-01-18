@@ -108,7 +108,7 @@ export default function Form() {
                 <Tab key={item.id}>
                   {({ selected }) => (
                     <button
-                      className={`border p-4 mx-2 text-white ${
+                      className={`border p-4 m-2 text-white ${
                         selected
                           ? 'bg-neutral-600 font-medium'
                           : 'bg-neutral-400 font-light'
@@ -130,7 +130,7 @@ export default function Form() {
                         <Tab key={engine.capacity}>
                           {({ selected }) => (
                             <button
-                              className={`border p-4 mx-2 text-white ${
+                              className={`border p-4 m-2 text-white ${
                                 selected
                                   ? 'bg-neutral-600 font-medium'
                                   : 'bg-neutral-400 font-light'
@@ -154,7 +154,7 @@ export default function Form() {
                                 <Tab key={gearbox.name}>
                                   {({ selected }) => (
                                     <button
-                                      className={`p-4 mx-2 text-white ${
+                                      className={`p-4 m-2 text-white ${
                                         selected
                                           ? 'bg-neutral-600 font-medium'
                                           : 'bg-neutral-400 font-light'
