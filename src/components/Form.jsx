@@ -37,20 +37,15 @@ export default function Form() {
 
   const handleEngineTabChange = (index) => {
     setCurrentEngineTab(index);
-    dispatch(
-      changeEngineName(
-        models[currentModelTab].engines[currentEngineTab].capacity
-      )
-    );
-    dispatch(
-      changeEnginePrice(models[currentModelTab].engines[currentEngineTab].price)
-    );
+    dispatch(changeEngineName(models[currentModelTab].engines[index].capacity));
+    dispatch(changeEnginePrice(models[currentModelTab].engines[index].price));
 
     dispatch(
       changeGearboxName(
         models[currentModelTab].engines[index].gearboxes[0].name
       )
     );
+
     dispatch(
       changeGearboxPrice(
         models[currentModelTab].engines[index].gearboxes[0].price
