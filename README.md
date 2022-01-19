@@ -1,5 +1,5 @@
 # Car Configurator 🚗
-Customization UI Programmer Test
+Customization UI Programmer Test (React+Redux)
 
 ## [APP DEMO](https://react-car-customizator.netlify.app/)
 
