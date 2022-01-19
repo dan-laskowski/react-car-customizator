@@ -12,6 +12,8 @@ import {
   changeColorValue,
   changeColorPrice,
 } from '../features/config/configSlice';
+import Option from '../components/Option';
+import OptionLabel from '../components/OptionLabel';
 
 export default function Form() {
   const { value } = useSelector((state) => state.config);
@@ -91,32 +93,25 @@ export default function Form() {
   }, []);
 
   return (
-    <div>
+    <main>
       {isLoading ? (
         <h1>Ładowanie elementów</h1>
       ) : (
-        <div className="text-neutral-700">
-          <h1 className="text-lg font-bold mb-2">Model</h1>
+        <div>
+          <OptionLabel>Model</OptionLabel>
           <Tab.Group onChange={(index) => handleModelTabChange(index)}>
             <Tab.List className="mb-6">
               {models.map((item) => (
                 <Tab key={item.id}>
                   {({ selected }) => (
-                    <button
-                      className={`border p-4 m-2 text-white ${
-                        selected
-                          ? 'bg-neutral-600 font-medium'
-                          : 'bg-neutral-400 font-light'
-                      } rounded-lg cursor-pointer drop-shadow-md`}
-                    >
-                      {item.name}
-                    </button>
+                    <Option selected={selected}>{item.name}</Option>
                   )}
                 </Tab>
               ))}
             </Tab.List>
             <Tab.Panels>
-              <p className="text-lg font-bold mb-2">Engine</p>
+              <OptionLabel>Engine</OptionLabel>
+              {/* <p className="text-lg font-bold mb-2">Engine</p> */}
               {models.map((item) => (
                 <Tab.Panel className="w-full flex flex-col" key={item.id}>
                   <Tab.Group onChange={(index) => handleEngineTabChange(index)}>
@@ -124,15 +119,9 @@ export default function Form() {
                       {item.engines.map((engine) => (
                         <Tab key={engine.capacity}>
                           {({ selected }) => (
-                            <button
-                              className={`border p-4 m-2 text-white ${
-                                selected
-                                  ? 'bg-neutral-600 font-medium'
-                                  : 'bg-neutral-400 font-light'
-                              } rounded-lg cursor-pointer drop-shadow-md`}
-                            >
+                            <Option selected={selected}>
                               {engine.capacity}
-                            </button>
+                            </Option>
                           )}
                         </Tab>
                       ))}
@@ -148,15 +137,9 @@ export default function Form() {
                               {engine.gearboxes.map((gearbox) => (
                                 <Tab key={gearbox.name}>
                                   {({ selected }) => (
-                                    <button
-                                      className={`p-4 m-2 text-white ${
-                                        selected
-                                          ? 'bg-neutral-600 font-medium'
-                                          : 'bg-neutral-400 font-light'
-                                      } rounded-lg cursor-pointer drop-shadow-md`}
-                                    >
+                                    <Option selected={selected}>
                                       {gearbox.name}
-                                    </button>
+                                    </Option>
                                   )}
                                 </Tab>
                               ))}
@@ -192,6 +175,6 @@ export default function Form() {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 }
