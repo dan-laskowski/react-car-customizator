@@ -12,8 +12,9 @@ import {
   changeColorValue,
   changeColorPrice,
 } from '../features/config/configSlice';
-import Option from '../components/Option';
-import OptionLabel from '../components/OptionLabel';
+import Option from './Option';
+import OptionLabel from './/OptionLabel';
+import ColorSwatch from './ColorSwatch';
 
 export default function Form() {
   const { value } = useSelector((state) => state.config);
@@ -111,7 +112,6 @@ export default function Form() {
             </Tab.List>
             <Tab.Panels>
               <OptionLabel>Engine</OptionLabel>
-              {/* <p className="text-lg font-bold mb-2">Engine</p> */}
               {models.map((item) => (
                 <Tab.Panel className="w-full flex flex-col" key={item.id}>
                   <Tab.Group onChange={(index) => handleEngineTabChange(index)}>
@@ -129,7 +129,7 @@ export default function Form() {
                     <Tab.Panels>
                       {item.engines.map((engine) => (
                         <Tab.Panel key={engine.capacity}>
-                          <p className="text-lg font-bold mb-2">Gearbox</p>
+                          <OptionLabel>Engine</OptionLabel>
                           <Tab.Group
                             onChange={(index) => handleGearboxTabChange(index)}
                           >
@@ -161,12 +161,7 @@ export default function Form() {
                 {colors.map((color) => (
                   <Tab key={color.name}>
                     {({ selected }) => (
-                      <button
-                        style={{ backgroundColor: color.value }}
-                        className={` m-2 ${
-                          selected ? 'w-20 h-20' : 'w-14 h-14'
-                        } rounded-lg cursor-pointer drop-shadow-md`}
-                      ></button>
+                      <ColorSwatch color={color.value} selected={selected} />
                     )}
                   </Tab>
                 ))}
