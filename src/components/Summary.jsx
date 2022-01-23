@@ -19,12 +19,12 @@ const Summary = () => {
             className=" w-3/4 m-auto w-full h-1/2 my-12 md:h-24 lg:h-40 2xl:h-60"
             data-src={`/assets/${value.model}.svg`}
           />
-          <h1 className="text-3xl lg:text-6xl text-gray-800 font-outfit font-bold text-center">
+          <h1 className="text-3xl lg:text-6xl dark:text-neutral-50 text-gray-800 font-outfit font-bold text-center">
             Your {value.model}
           </h1>
         </>
       )}
-      <div className="mt-8 md:mb-0 mb-2 font-bold text-lg text-neutral-600 text-center flex justify-around">
+      <div className="mt-8 md:mb-0 mb-2 font-bold text-lg dark:text-neutral-400 text-neutral-600 text-center flex justify-around">
         <div>
           <h2 className="text-xs md:text-sm text-xl">Engine </h2>
           <p className="text-base md:text-lg font-medium">
@@ -43,7 +43,7 @@ const Summary = () => {
         </div>
       </div>
       <div>
-        <h1 className="text-xl mb-4 md:text-2xl lg:text-4xl font-bold text-neutral-600 text-center md:mt-20">
+        <h1 className="text-xl mb-4 md:text-2xl lg:text-4xl font-bold dark:text-neutral-400 text-neutral-600 text-center md:mt-20">
           TOTAL ${value.engine.price + value.gearbox.price + value.color.price}
         </h1>
       </div>

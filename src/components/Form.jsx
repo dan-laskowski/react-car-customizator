@@ -154,8 +154,10 @@ export default function Form() {
             </Tab.Panels>
           </Tab.Group>
           <div>
-            <h1 className="text-lg font-bold">Paint</h1>
-            <p className="text-sm mb-4">{value.color.name}</p>
+            <h1 className="text-lg dark:text-neutral-300 font-bold">Paint</h1>
+            <p className="text-sm dark:text-neutral-400 mb-4">
+              {value.color.name}
+            </p>
             <Tab.Group onChange={(index) => handleColorChange(index)}>
               <Tab.List className="flex align-center">
                 {colors.map((color) => (
