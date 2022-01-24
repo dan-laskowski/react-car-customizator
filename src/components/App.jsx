@@ -5,7 +5,7 @@ import Summary from './Summary';
 const App = () => {
   return (
     <div className="dark:bg-slate-900 bg-gray-50">
-      <main className="mx-4 w-max-xl h-screen font-outfit flex flex-col-reverse md:flex-row ">
+      <main className="mx-4 w-max-xl min-h-screen font-outfit flex flex-col-reverse md:flex-row ">
         <section className="mb-4 min-h-min  md:h-auto w-full grid place-items-center ">
           <Form />
         </section>
