@@ -3,6 +3,7 @@ import React from 'react';
 const OptionLabel = ({ children, ...props }) => {
   return (
     <p
+      role="heading"
       className="text-lg dark:text-neutral-300 text-neutral-700 font-bold mb-2"
       {...props}
     >
