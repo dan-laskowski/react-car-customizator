@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ColorSwatch = ({ color, selected, ...props }) => {
   return (
     <div

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tab } from '@headlessui/react';
 import { getColors, getModels } from '../app/api';
@@ -45,27 +45,28 @@ export default function Form() {
 
     dispatch(
       changeGearboxName(
-        models[currentModelTab].engines[index].gearboxes[0].name
-      )
+        models[currentModelTab].engines[index].gearboxes[0].name,
+      ),
     );
 
     dispatch(
       changeGearboxPrice(
-        models[currentModelTab].engines[index].gearboxes[0].price
-      )
+        models[currentModelTab].engines[index].gearboxes[0].price,
+      ),
     );
   };
 
   const handleGearboxTabChange = (index) => {
     dispatch(
       changeGearboxName(
-        models[currentModelTab].engines[currentEngineTab].gearboxes[index].name
-      )
+        models[currentModelTab].engines[currentEngineTab].gearboxes[index].name,
+      ),
     );
     dispatch(
       changeGearboxPrice(
-        models[currentModelTab].engines[currentEngineTab].gearboxes[index].price
-      )
+        models[currentModelTab].engines[currentEngineTab].gearboxes[index]
+          .price,
+      ),
     );
   };
 
@@ -91,7 +92,7 @@ export default function Form() {
       dispatch(changeColorPrice(colors[0].price));
       setLoading(false);
     });
-  }, []);
+  }, [dispatch]);
 
   return (
     <main>

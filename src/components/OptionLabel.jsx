@@ -1,5 +1,3 @@
-import React from 'react';
-
 const OptionLabel = ({ children, ...props }) => {
   return (
     <p

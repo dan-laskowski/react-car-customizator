@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import 'external-svg-loader';
 
@@ -16,7 +15,7 @@ const Summary = () => {
       {value.model && value.color.value && (
         <>
           <svg
-            className=" w-3/4 m-auto w-full h-1/2 my-12 md:h-24 lg:h-40 2xl:h-60"
+            className="w-3/4 m-auto h-1/2 my-12 md:h-24 lg:h-40 2xl:h-60"
             data-src={`/assets/${value.model}.svg`}
           />
           <h1 className="text-3xl lg:text-6xl dark:text-neutral-50 text-gray-800 font-outfit font-bold text-center">
@@ -26,19 +25,19 @@ const Summary = () => {
       )}
       <div className="mt-8 md:mb-0 mb-2 font-bold text-lg dark:text-neutral-400 text-neutral-600 text-center flex justify-around">
         <div>
-          <h2 className="text-xs md:text-sm text-xl">Engine </h2>
+          <h2 className="text-xs md:text-sm lg:text-xl">Engine </h2>
           <p className="text-base md:text-lg font-medium">
             {value.engine.name}
           </p>
         </div>
         <div>
-          <h2 className="text-xs md:text-sm text-xl">Gearbox </h2>
+          <h2 className="text-xs md:text-sm lg:text-xl">Gearbox </h2>
           <p className="text-base md:text-lg font-medium">
             {value.gearbox.name}
           </p>
         </div>
         <div>
-          <h2 className="text-xs md:text-sm text-xl">Color </h2>
+          <h2 className="text-xs md:text-sm lg:text-xl">Color </h2>
           <p className="text-base md:text-lg font-medium">{value.color.name}</p>
         </div>
       </div>
