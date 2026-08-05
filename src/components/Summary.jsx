@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import 'external-svg-loader';
 
@@ -9,6 +10,15 @@ const Summary = () => {
   const sheet = document.createElement('style');
   sheet.innerHTML = `.body {fill: ${value.color.value}}`;
   document.body.appendChild(sheet);
+
+  useEffect(() => {
+    const sheet = document.createElement('style');
+    sheet.innerHTML = `.body {fill: ${value.color.value}}`;
+    document.body.appendChild(sheet);
+    return () => {
+      document.body.removeChild(sheet);
+    };
+  }, [value.color.value]);
 
   return (
     <div className="m-auto w-5/6 sm:w-4/6 md:w-4/5">
