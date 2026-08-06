@@ -1,7 +1,8 @@
+import { JSX } from 'react';
 import Form from './Form';
 import Summary from './Summary';
 
-const App = () => {
+const App = (): JSX.Element => {
   return (
     <div className="dark:bg-slate-900 bg-gray-50">
       <main className="mx-4 w-max-xl min-h-screen font-outfit flex flex-col-reverse md:flex-row ">

@@ -1,15 +1,9 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, JSX } from 'react';
+import { useAppSelector } from '../app/hooks';
 import 'external-svg-loader';
 
-const Summary = () => {
-  // initialize useSelector hook to get access to data from redux store
-  const { value } = useSelector((state) => state.config);
-
-  // create stylesheet and rule to dynamically change car's body color
-  const sheet = document.createElement('style');
-  sheet.innerHTML = `.body {fill: ${value.color.value}}`;
-  document.body.appendChild(sheet);
+const Summary = (): JSX.Element => {
+  const { value } = useAppSelector((state) => state.config);
 
   useEffect(() => {
     const sheet = document.createElement('style');

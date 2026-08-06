@@ -1,4 +1,11 @@
-const Option = ({ selected, children, ...props }) => {
+import { JSX, HTMLAttributes, ReactNode } from 'react';
+
+interface OptionProps extends HTMLAttributes<HTMLDivElement> {
+  selected: boolean;
+  children: ReactNode;
+}
+
+const Option = ({ selected, children, ...props }: OptionProps): JSX.Element => {
   return (
     <>
       <div
