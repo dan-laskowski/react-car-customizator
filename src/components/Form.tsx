@@ -4,13 +4,9 @@ import { Tab } from '@headlessui/react';
 import { getColors, getModels } from '../app/api';
 import {
   changeModel,
-  changeEngineName,
-  changeEnginePrice,
-  changeGearboxName,
-  changeGearboxPrice,
-  changeColorName,
-  changeColorValue,
-  changeColorPrice,
+  changeGearbox,
+  changeEngine,
+  changeColor,
 } from '../features/config/configSlice';
 import Option from './Option';
 import OptionLabel from './OptionLabel';
@@ -29,68 +25,72 @@ export default function Form(): JSX.Element {
   let [currentEngineTab, setCurrentEngineTab] = useState(0);
 
   const handleModelTabChange = (index: number): void => {
+    const engine = models[index].engines[0];
+    dispatch(changeEngine({ name: engine.capacity, price: engine.price }));
+    dispatch(
+      changeGearbox({
+        name: engine.gearboxes[0].name,
+        price: engine.gearboxes[0].price,
+      }),
+    );
+
     setCurrentModelTab(index);
     dispatch(changeModel(models[index].name));
-
-    dispatch(changeEngineName(models[index].engines[0].capacity));
-    dispatch(changeEnginePrice(models[index].engines[0].price));
-
-    dispatch(changeGearboxName(models[index].engines[0].gearboxes[0].name));
-    dispatch(changeGearboxPrice(models[index].engines[0].gearboxes[0].price));
   };
 
   const handleEngineTabChange = (index: number): void => {
+    const engine = models[currentModelTab].engines[index];
+    dispatch(changeEngine({ name: engine.capacity, price: engine.price }));
+    dispatch(
+      changeGearbox({
+        name: engine.gearboxes[0].name,
+        price: engine.gearboxes[0].price,
+      }),
+    );
     setCurrentEngineTab(index);
-    dispatch(changeEngineName(models[currentModelTab].engines[index].capacity));
-    dispatch(changeEnginePrice(models[currentModelTab].engines[index].price));
-
-    dispatch(
-      changeGearboxName(
-        models[currentModelTab].engines[index].gearboxes[0].name,
-      ),
-    );
-
-    dispatch(
-      changeGearboxPrice(
-        models[currentModelTab].engines[index].gearboxes[0].price,
-      ),
-    );
   };
 
   const handleGearboxTabChange = (index: number): void => {
-    dispatch(
-      changeGearboxName(
-        models[currentModelTab].engines[currentEngineTab].gearboxes[index].name,
-      ),
-    );
-    dispatch(
-      changeGearboxPrice(
-        models[currentModelTab].engines[currentEngineTab].gearboxes[index]
-          .price,
-      ),
-    );
+    const gearbox =
+      models[currentModelTab].engines[currentEngineTab].gearboxes[index];
+    dispatch(changeGearbox({ name: gearbox.name, price: gearbox.price }));
   };
 
   const handleColorChange = (index: number): void => {
-    dispatch(changeColorName(colors[index].name));
-    dispatch(changeColorValue(colors[index].value));
-    dispatch(changeColorPrice(colors[index].price));
+    const color = colors[index];
+    dispatch(
+      changeColor({ name: color.name, value: color.value, price: color.price }),
+    );
   };
 
   useEffect(() => {
     getModels().then((models) => {
       setModels(models);
-      dispatch(changeModel(models[0].name));
-      dispatch(changeEngineName(models[0].engines[0].capacity));
-      dispatch(changeEnginePrice(models[0].engines[0].price));
-      dispatch(changeGearboxName(models[0].engines[0].gearboxes[0].name));
-      dispatch(changeGearboxPrice(models[0].engines[0].gearboxes[0].price));
+      const model = models[0];
+      dispatch(changeModel(model.name));
+      dispatch(
+        changeEngine({
+          name: model.engines[0].capacity,
+          price: model.engines[0].price,
+        }),
+      );
+      dispatch(
+        changeGearbox({
+          name: model.engines[0].gearboxes[0].name,
+          price: model.engines[0].gearboxes[0].price,
+        }),
+      );
     });
     getColors().then((colors) => {
       setColors(colors);
-      dispatch(changeColorName(colors[0].name));
-      dispatch(changeColorValue(colors[0].value));
-      dispatch(changeColorPrice(colors[0].price));
+      const color = colors[0];
+      dispatch(
+        changeColor({
+          name: color.name,
+          value: color.value,
+          price: color.price,
+        }),
+      );
       setLoading(false);
     });
   }, [dispatch]);
