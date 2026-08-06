@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect, JSX } from 'react';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { Tab } from '@headlessui/react';
 import { getColors, getModels } from '../app/api';
 import {
@@ -13,21 +13,22 @@ import {
   changeColorPrice,
 } from '../features/config/configSlice';
 import Option from './Option';
-import OptionLabel from './/OptionLabel';
+import OptionLabel from './OptionLabel';
 import ColorSwatch from './ColorSwatch';
+import { Color, Model } from '../app/types';
 
-export default function Form() {
-  const { value } = useSelector((state) => state.config);
-  const dispatch = useDispatch();
+export default function Form(): JSX.Element {
+  const { value } = useAppSelector((state) => state.config);
+  const dispatch = useAppDispatch();
 
   let [isLoading, setLoading] = useState(true);
 
-  let [models, setModels] = useState([]);
-  let [colors, setColors] = useState([]);
+  let [models, setModels] = useState<Model[]>([]);
+  let [colors, setColors] = useState<Color[]>([]);
   let [currentModelTab, setCurrentModelTab] = useState(0);
   let [currentEngineTab, setCurrentEngineTab] = useState(0);
 
-  const handleModelTabChange = (index) => {
+  const handleModelTabChange = (index: number): void => {
     setCurrentModelTab(index);
     dispatch(changeModel(models[index].name));
 
@@ -38,7 +39,7 @@ export default function Form() {
     dispatch(changeGearboxPrice(models[index].engines[0].gearboxes[0].price));
   };
 
-  const handleEngineTabChange = (index) => {
+  const handleEngineTabChange = (index: number): void => {
     setCurrentEngineTab(index);
     dispatch(changeEngineName(models[currentModelTab].engines[index].capacity));
     dispatch(changeEnginePrice(models[currentModelTab].engines[index].price));
@@ -56,7 +57,7 @@ export default function Form() {
     );
   };
 
-  const handleGearboxTabChange = (index) => {
+  const handleGearboxTabChange = (index: number): void => {
     dispatch(
       changeGearboxName(
         models[currentModelTab].engines[currentEngineTab].gearboxes[index].name,
@@ -70,7 +71,7 @@ export default function Form() {
     );
   };
 
-  const handleColorChange = (index) => {
+  const handleColorChange = (index: number): void => {
     dispatch(changeColorName(colors[index].name));
     dispatch(changeColorValue(colors[index].value));
     dispatch(changeColorPrice(colors[index].price));

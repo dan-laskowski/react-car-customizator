@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, JSX } from 'react';
+import { useAppSelector } from '../app/hooks';
 import 'external-svg-loader';
 
-const Summary = () => {
-  const { value } = useSelector((state) => state.config);
+const Summary = (): JSX.Element => {
+  const { value } = useAppSelector((state) => state.config);
 
   useEffect(() => {
     const sheet = document.createElement('style');
