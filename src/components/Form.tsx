@@ -8,10 +8,10 @@ import {
   changeEngine,
   changeColor,
 } from '../features/config/configSlice';
-import Option from './Option';
 import OptionLabel from './OptionLabel';
 import ColorSwatch from './ColorSwatch';
 import { Color, Model } from '../app/types';
+import OptionTab from './OptionTab';
 
 export default function Form(): JSX.Element {
   const { value } = useAppSelector((state) => state.config);
@@ -105,11 +105,7 @@ export default function Form(): JSX.Element {
           <Tab.Group onChange={(index) => handleModelTabChange(index)}>
             <Tab.List className="mb-6">
               {models.map((item) => (
-                <Tab key={item.id}>
-                  {({ selected }) => (
-                    <Option selected={selected}>{item.name}</Option>
-                  )}
-                </Tab>
+                <OptionTab key={item.id} label={item.name} />
               ))}
             </Tab.List>
             <Tab.Panels>
@@ -119,13 +115,10 @@ export default function Form(): JSX.Element {
                   <Tab.Group onChange={(index) => handleEngineTabChange(index)}>
                     <Tab.List className="mb-6">
                       {item.engines.map((engine) => (
-                        <Tab key={engine.capacity}>
-                          {({ selected }) => (
-                            <Option selected={selected}>
-                              {engine.capacity}
-                            </Option>
-                          )}
-                        </Tab>
+                        <OptionTab
+                          key={engine.capacity}
+                          label={engine.capacity}
+                        />
                       ))}
                     </Tab.List>
                     <Tab.Panels>
@@ -137,13 +130,10 @@ export default function Form(): JSX.Element {
                           >
                             <Tab.List className="mb-12">
                               {engine.gearboxes.map((gearbox) => (
-                                <Tab key={gearbox.name}>
-                                  {({ selected }) => (
-                                    <Option selected={selected}>
-                                      {gearbox.name}
-                                    </Option>
-                                  )}
-                                </Tab>
+                                <OptionTab
+                                  key={gearbox.name}
+                                  label={gearbox.name}
+                                />
                               ))}
                             </Tab.List>
                           </Tab.Group>
