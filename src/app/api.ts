@@ -1,13 +1,19 @@
 import { Model, Color } from './types';
 
-export async function getModels(): Promise<Model[]> {
-  const results = await fetch('./models.json');
-  const models = await results.json();
-  return models;
+async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
+    );
+  }
+  return await response.json();
 }
 
-export async function getColors(): Promise<Color[]> {
-  const results = await fetch('./colors.json');
-  const colors = await results.json();
-  return colors;
+export function getModels() {
+  return fetchJson<Model[]>('../../models.json');
+}
+
+export function getColors() {
+  return fetchJson<Color[]>('../../colors.json');
 }

@@ -17,12 +17,53 @@ export default function Form(): JSX.Element {
   const { value } = useAppSelector((state) => state.config);
   const dispatch = useAppDispatch();
 
-  let [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  let [models, setModels] = useState<Model[]>([]);
-  let [colors, setColors] = useState<Color[]>([]);
-  let [currentModelTab, setCurrentModelTab] = useState(0);
-  let [currentEngineTab, setCurrentEngineTab] = useState(0);
+  const [models, setModels] = useState<Model[]>([]);
+  const [colors, setColors] = useState<Color[]>([]);
+
+  const [currentModelTab, setCurrentModelTab] = useState(0);
+  const [currentEngineTab, setCurrentEngineTab] = useState(0);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [models, colors] = await Promise.all([getModels(), getColors()]);
+        setModels(models);
+        setColors(colors);
+
+        const model = models[0];
+        dispatch(changeModel(model.name));
+        dispatch(
+          changeEngine({
+            name: model.engines[0].capacity,
+            price: model.engines[0].price,
+          }),
+        );
+        dispatch(
+          changeGearbox({
+            name: model.engines[0].gearboxes[0].name,
+            price: model.engines[0].gearboxes[0].price,
+          }),
+        );
+        const color = colors[0];
+        dispatch(
+          changeColor({
+            name: color.name,
+            value: color.value,
+            price: color.price,
+          }),
+        );
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Something went wrong.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+  }, [dispatch]);
 
   const handleModelTabChange = (index: number): void => {
     const engine = models[index].engines[0];
@@ -63,46 +104,16 @@ export default function Form(): JSX.Element {
     );
   };
 
-  useEffect(() => {
-    getModels().then((models) => {
-      setModels(models);
-      const model = models[0];
-      dispatch(changeModel(model.name));
-      dispatch(
-        changeEngine({
-          name: model.engines[0].capacity,
-          price: model.engines[0].price,
-        }),
-      );
-      dispatch(
-        changeGearbox({
-          name: model.engines[0].gearboxes[0].name,
-          price: model.engines[0].gearboxes[0].price,
-        }),
-      );
-    });
-    getColors().then((colors) => {
-      setColors(colors);
-      const color = colors[0];
-      dispatch(
-        changeColor({
-          name: color.name,
-          value: color.value,
-          price: color.price,
-        }),
-      );
-      setLoading(false);
-    });
-  }, [dispatch]);
-
   return (
     <main>
-      {isLoading ? (
-        <h1>Ładowanie elementów</h1>
+      {error ? (
+        <h1>Something went wrong: {error}</h1>
+      ) : isLoading ? (
+        <h1>Fetching available configurations....</h1>
       ) : (
         <div>
           <OptionLabel>Model</OptionLabel>
-          <Tab.Group onChange={(index) => handleModelTabChange(index)}>
+          <Tab.Group onChange={handleModelTabChange}>
             <Tab.List className="mb-6">
               {models.map((item) => (
                 <OptionTab key={item.id} label={item.name} />
@@ -112,7 +123,7 @@ export default function Form(): JSX.Element {
               <OptionLabel>Engine</OptionLabel>
               {models.map((item) => (
                 <Tab.Panel className="w-full flex flex-col" key={item.id}>
-                  <Tab.Group onChange={(index) => handleEngineTabChange(index)}>
+                  <Tab.Group onChange={handleEngineTabChange}>
                     <Tab.List className="mb-6">
                       {item.engines.map((engine) => (
                         <OptionTab
@@ -125,9 +136,7 @@ export default function Form(): JSX.Element {
                       {item.engines.map((engine) => (
                         <Tab.Panel key={engine.capacity}>
                           <OptionLabel>Engine</OptionLabel>
-                          <Tab.Group
-                            onChange={(index) => handleGearboxTabChange(index)}
-                          >
+                          <Tab.Group onChange={handleGearboxTabChange}>
                             <Tab.List className="mb-12">
                               {engine.gearboxes.map((gearbox) => (
                                 <OptionTab
@@ -150,7 +159,7 @@ export default function Form(): JSX.Element {
             <p className="text-sm dark:text-neutral-400 mb-4">
               {value.color.name}
             </p>
-            <Tab.Group onChange={(index) => handleColorChange(index)}>
+            <Tab.Group onChange={handleColorChange}>
               <Tab.List className="flex align-center">
                 {colors.map((color) => (
                   <Tab key={color.name}>
