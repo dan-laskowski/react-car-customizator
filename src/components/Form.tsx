@@ -10,7 +10,7 @@ import {
 } from '../features/config/configSlice';
 import OptionLabel from './OptionLabel';
 import ColorSwatch from './ColorSwatch';
-import { Color, Model } from '../app/types';
+import { Color, Engine, Model } from '../app/types';
 import OptionTab from './OptionTab';
 
 export default function Form(): JSX.Element {
@@ -35,18 +35,8 @@ export default function Form(): JSX.Element {
 
         const model = models[0];
         dispatch(changeModel(model.name));
-        dispatch(
-          changeEngine({
-            name: model.engines[0].capacity,
-            price: model.engines[0].price,
-          }),
-        );
-        dispatch(
-          changeGearbox({
-            name: model.engines[0].gearboxes[0].name,
-            price: model.engines[0].gearboxes[0].price,
-          }),
-        );
+        selectEngine(model.engines[0]);
+
         const color = colors[0];
         dispatch(
           changeColor({
@@ -65,8 +55,7 @@ export default function Form(): JSX.Element {
     loadData();
   }, [dispatch]);
 
-  const handleModelTabChange = (index: number): void => {
-    const engine = models[index].engines[0];
+  const selectEngine = (engine: Engine): void => {
     dispatch(changeEngine({ name: engine.capacity, price: engine.price }));
     dispatch(
       changeGearbox({
@@ -74,6 +63,11 @@ export default function Form(): JSX.Element {
         price: engine.gearboxes[0].price,
       }),
     );
+  };
+
+  const handleModelTabChange = (index: number): void => {
+    const engine = models[index].engines[0];
+    selectEngine(engine);
 
     setCurrentModelTab(index);
     dispatch(changeModel(models[index].name));
@@ -81,13 +75,7 @@ export default function Form(): JSX.Element {
 
   const handleEngineTabChange = (index: number): void => {
     const engine = models[currentModelTab].engines[index];
-    dispatch(changeEngine({ name: engine.capacity, price: engine.price }));
-    dispatch(
-      changeGearbox({
-        name: engine.gearboxes[0].name,
-        price: engine.gearboxes[0].price,
-      }),
-    );
+    selectEngine(engine);
     setCurrentEngineTab(index);
   };
 
