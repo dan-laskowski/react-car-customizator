@@ -5,20 +5,14 @@ import 'external-svg-loader';
 const Summary = (): JSX.Element => {
   const { value } = useAppSelector((state) => state.config);
 
-  useEffect(() => {
-    const sheet = document.createElement('style');
-    sheet.innerHTML = `.body {fill: ${value.color.value}}`;
-    document.body.appendChild(sheet);
-    return () => {
-      document.body.removeChild(sheet);
-    };
-  }, [value.color.value]);
-
   return (
     <div className="m-auto w-5/6 sm:w-4/6 md:w-4/5">
+      <style>{`.body { fill: ${value.color.value}; }`}</style>
       {value.model && value.color.value && (
         <>
           <svg
+            role="img"
+            aria-label={`${value.model} car model`}
             className="w-3/4 m-auto h-1/2 my-12 md:h-24 lg:h-40 2xl:h-60"
             data-src={`/assets/${value.model}.svg`}
           />
