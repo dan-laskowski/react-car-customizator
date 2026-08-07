@@ -31,7 +31,6 @@ export interface CarConfig {
   engine: EngineConfig;
   gearbox: GearboxConfig;
   color: ColorConfig;
-  price: number;
 }
 
 export interface EngineConfig {

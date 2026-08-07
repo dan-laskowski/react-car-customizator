@@ -22,7 +22,6 @@ const initialState: ConfigState = {
       value: '',
       price: 0,
     },
-    price: 0,
   },
 };
 
