@@ -1,4 +1,4 @@
-import { useState, useEffect, JSX } from 'react';
+import { useState, useEffect, JSX, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { Tab } from '@headlessui/react';
 import { getColors, getModels } from '../app/api';
@@ -25,6 +25,19 @@ export default function Form(): JSX.Element {
 
   const [currentModelTab, setCurrentModelTab] = useState(0);
   const [currentEngineTab, setCurrentEngineTab] = useState(0);
+
+  const selectEngine = useCallback(
+    (engine: Engine): void => {
+      dispatch(changeEngine({ name: engine.capacity, price: engine.price }));
+      dispatch(
+        changeGearbox({
+          name: engine.gearboxes[0].name,
+          price: engine.gearboxes[0].price,
+        }),
+      );
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     async function loadData() {
@@ -53,17 +66,7 @@ export default function Form(): JSX.Element {
     }
 
     loadData();
-  }, [dispatch]);
-
-  const selectEngine = (engine: Engine): void => {
-    dispatch(changeEngine({ name: engine.capacity, price: engine.price }));
-    dispatch(
-      changeGearbox({
-        name: engine.gearboxes[0].name,
-        price: engine.gearboxes[0].price,
-      }),
-    );
-  };
+  }, [dispatch, selectEngine]);
 
   const handleModelTabChange = (index: number): void => {
     const engine = models[index].engines[0];

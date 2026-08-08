@@ -1,4 +1,4 @@
-import { useEffect, JSX } from 'react';
+import { JSX } from 'react';
 import { useAppSelector } from '../app/hooks';
 import 'external-svg-loader';
 
