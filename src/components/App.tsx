@@ -56,7 +56,7 @@ const App = (): JSX.Element => {
       ) : isLoading ? (
         <SkeletonScreen />
       ) : (
-        <main className="mx-4 max-w-xl min-h-screen font-outfit flex flex-col md:flex-row-reverse">
+        <main className="mx-4 w-max-xl min-h-screen font-outfit flex flex-col md:flex-row-reverse">
           <section className="order-last md:order-first mb-4 min-h-min md:h-auto w-full grid place-items-center">
             <Form models={models} colors={colors} />
           </section>
