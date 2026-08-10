@@ -54,7 +54,7 @@ export default function Form({ models, colors }: FormProps): JSX.Element {
   };
 
   return (
-    <main>
+    <div>
       <div>
         <OptionLabel>Model</OptionLabel>
         <Tab.Group onChange={handleModelTabChange}>
@@ -116,6 +116,6 @@ export default function Form({ models, colors }: FormProps): JSX.Element {
           </Tab.Group>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
