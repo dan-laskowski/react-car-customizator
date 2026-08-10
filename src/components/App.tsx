@@ -5,8 +5,9 @@ import { Color, Model } from '../app/types';
 import { useAppDispatch } from '../app/hooks';
 import { getColors, getModels } from '../app/api';
 import { changeModel, changeColor } from '../features/config/configSlice';
-import StatusScreen from './StatusScreen';
 import { useSelectEngine } from '../features/config/useSelectEngine';
+import StatusScreen from './StatusScreen';
+import SkeletonScreen from './SkeletonScreen';
 
 const App = (): JSX.Element => {
   const [isLoading, setLoading] = useState(true);
@@ -53,16 +54,13 @@ const App = (): JSX.Element => {
       {error ? (
         <StatusScreen variant="error" text={error} />
       ) : isLoading ? (
-        <StatusScreen
-          variant="loading"
-          text="Fetching available configurations..."
-        />
+        <SkeletonScreen />
       ) : (
-        <main className="mx-4 w-max-xl min-h-screen font-outfit flex flex-col-reverse md:flex-row ">
-          <section className="mb-4 min-h-min  md:h-auto w-full grid place-items-center ">
+        <main className="mx-4 w-max-xl min-h-screen font-outfit flex flex-col md:flex-row-reverse">
+          <section className="order-last md:order-first mb-4 min-h-min md:h-auto w-full grid place-items-center">
             <Form models={models} colors={colors} />
           </section>
-          <section className="w-full min-h-min h-1/2 md:h-auto dark:bg-blue-800 bg-neutral-200 rounded-lg md:rounded-l-lg my-4 md:grid md:place-items-center">
+          <section className="order-first md:order-last w-full min-h-min md:h-auto dark:bg-blue-800 bg-neutral-200 rounded-lg md:rounded-l-lg my-4 md:grid md:place-items-center">
             <Summary />
           </section>
         </main>
