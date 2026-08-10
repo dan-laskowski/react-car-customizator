@@ -13,7 +13,7 @@ const Summary = (): JSX.Element => {
           <svg
             role="img"
             aria-label={`${value.model} car model`}
-            className="w-3/4 m-auto h-1/2 my-12 md:h-24 lg:h-40 2xl:h-60"
+            className="w-3/4 m-auto h-21 my-12 md:h-24 lg:h-40 2xl:h-60"
             data-src={`/assets/${value.model}.svg`}
           />
           <h1 className="text-3xl lg:text-6xl dark:text-neutral-50 text-gray-800 font-outfit font-bold text-center">
