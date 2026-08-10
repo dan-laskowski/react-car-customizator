@@ -32,6 +32,7 @@ export default function Form({ models, colors }: FormProps): JSX.Element {
 
     setCurrentModelTab(index);
     dispatch(changeModel(models[index].name));
+    setCurrentEngineTab(0);
   };
 
   const handleEngineTabChange = (index: number): void => {
@@ -79,7 +80,7 @@ export default function Form({ models, colors }: FormProps): JSX.Element {
                   <Tab.Panels>
                     {item.engines.map((engine) => (
                       <Tab.Panel key={engine.capacity}>
-                        <OptionLabel>Engine</OptionLabel>
+                        <OptionLabel>Gearbox</OptionLabel>
                         <Tab.Group onChange={handleGearboxTabChange}>
                           <Tab.List className="mb-12">
                             {engine.gearboxes.map((gearbox) => (
@@ -106,7 +107,7 @@ export default function Form({ models, colors }: FormProps): JSX.Element {
           <Tab.Group onChange={handleColorChange}>
             <Tab.List className="flex align-center">
               {colors.map((color) => (
-                <Tab key={color.name}>
+                <Tab key={color.name} aria-label={color.name}>
                   {({ selected }) => (
                     <ColorSwatch color={color.value} selected={selected} />
                   )}
