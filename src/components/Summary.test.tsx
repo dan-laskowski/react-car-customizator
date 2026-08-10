@@ -64,7 +64,7 @@ describe('Summary', () => {
     );
 
     const image = screen.getByRole('img', { name: 'UBER RS2 car model' });
-    expect(image.className).toContain('h-21');
+    expect(image).toHaveClass('h-21');
   });
 
   it('renders engine, gearbox and color labels from state', () => {

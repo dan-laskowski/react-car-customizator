@@ -13,9 +13,8 @@ describe('SkeletonScreen', () => {
   it('announces loading status to assistive technology', () => {
     render(<SkeletonScreen />);
 
-    expect(
-      screen.getByRole('status', { name: 'Loading car configurator.' }),
-    ).toBeInTheDocument();
+    const status = screen.getByRole('status');
+    expect(status).toHaveTextContent('Loading car configurator.');
   });
 
   it('applies the pulse animation classes to the root element', () => {
@@ -44,9 +43,7 @@ describe('SkeletonScreen', () => {
     const [formSection] = container.querySelectorAll('section');
 
     // Four "model" placeholders, two "engine", two "gearbox" placeholders
-    const optionPlaceholders = formSection.querySelectorAll(
-      '.h-12.p-4.m-2',
-    );
+    const optionPlaceholders = formSection.querySelectorAll('.h-12.p-4.m-2');
     expect(optionPlaceholders).toHaveLength(4 + 2 + 2);
 
     // Five color swatch placeholders

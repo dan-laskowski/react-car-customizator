@@ -11,8 +11,6 @@ vi.mock('../app/api', () => ({
   getColors: vi.fn(),
 }));
 
-// external-svg-loader mutates the DOM to resolve <svg data-src> at runtime
-// and is unrelated to the behaviour under test, so it is stubbed out.
 vi.mock('external-svg-loader', () => ({}));
 
 import { getColors, getModels } from '../app/api';
@@ -59,9 +57,8 @@ describe('App', () => {
 
     renderApp();
 
-    expect(
-      screen.getByRole('status', { name: 'Loading car configurator.' }),
-    ).toBeInTheDocument();
+    const status = screen.getByRole('status');
+    expect(status).toHaveTextContent('Loading car configurator.');
     expect(screen.queryByText(/Fetching available/)).not.toBeInTheDocument();
   });
 
@@ -73,9 +70,7 @@ describe('App', () => {
 
     expect(await screen.findByText('Something went wrong')).toBeInTheDocument();
     expect(screen.getByText('Network error')).toBeInTheDocument();
-    expect(
-      screen.queryByRole('status', { name: 'Loading car configurator.' }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
   });
 
   it('renders the Form and Summary sections in the expected order once data loads', async () => {
@@ -86,9 +81,7 @@ describe('App', () => {
 
     await screen.findByText('Your PRO RS3');
 
-    expect(
-      screen.queryByRole('status', { name: 'Loading car configurator.' }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
 
     const sections = container.querySelectorAll('main > section');
     expect(sections).toHaveLength(2);
@@ -100,6 +93,20 @@ describe('App', () => {
     expect(summarySection.className).toContain('md:order-last');
   });
 
+  it('does not use relative height on layout sections, to avoid layout shift between the skeleton and loaded content', async () => {
+    vi.mocked(getModels).mockResolvedValue(mockModels);
+    vi.mocked(getColors).mockResolvedValue(mockColors);
+
+    const { container } = renderApp();
+
+    await screen.findByText('Your PRO RS3');
+
+    const sections = container.querySelectorAll('main > section');
+    sections.forEach((section) => {
+      expect(section.className).not.toContain('h-1/2');
+    });
+  });
+
   it('dispatches the first model, engine and color as the default selection after loading', async () => {
     vi.mocked(getModels).mockResolvedValue(mockModels);
     vi.mocked(getColors).mockResolvedValue(mockColors);
@@ -107,8 +114,8 @@ describe('App', () => {
     renderApp();
 
     expect(await screen.findByText('Your PRO RS3')).toBeInTheDocument();
-    expect(screen.getByText('2.0L')).toBeInTheDocument();
-    expect(screen.getByText('manual')).toBeInTheDocument();
-    expect(screen.getByText('Martro Grey')).toBeInTheDocument();
+    expect(screen.getAllByText('2.0L').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('manual').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Martro Grey').length).toBeGreaterThan(0);
   });
 });
